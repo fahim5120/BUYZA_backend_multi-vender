@@ -15,11 +15,17 @@ const adminRoutes=require("./routers/AdminRoutes")
 const sellerRoutes=require("./routers/SellerRoutes");
 const authRoutes=require("./routers/AuthRoutes");
 const userRoutes=require("./routers/UserRoutes");
+const productRoutes=require("./routers/ProductsRoutes");
+const sellerProdutRoutes=require("./routers/sellerProductRoutes");
 
-app.use("/sellers",sellerRoutes)
-app.use("/admin",adminRoutes)
 app.use("/auth",authRoutes)
 app.use("/api/users",userRoutes)
+app.use("/sellers",sellerRoutes)
+app.use("/products",productRoutes)
+app.use("/api/sellers/products",sellerProdutRoutes)
+app.use("/admin",adminRoutes)
+
+
 
 
 
