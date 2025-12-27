@@ -17,12 +17,18 @@ const authRoutes=require("./routers/AuthRoutes");
 const userRoutes=require("./routers/UserRoutes");
 const productRoutes=require("./routers/ProductsRoutes");
 const sellerProdutRoutes=require("./routers/sellerProductRoutes");
+const cartRoutes=require("./routers/CartRoutes");
+const orderRoutes=require("./routers/orderRoutes");
+const sellerOrderRoutes=require("./routers/sellerOrderRoutes");
 
 app.use("/auth",authRoutes)
 app.use("/api/users",userRoutes)
 app.use("/sellers",sellerRoutes)
 app.use("/products",productRoutes)
 app.use("/api/sellers/products",sellerProdutRoutes)
+app.use("/api/cart",cartRoutes)
+app.use("/api/orders",orderRoutes)
+app.use("/api/seller/orders",sellerOrderRoutes)
 app.use("/admin",adminRoutes)
 
 

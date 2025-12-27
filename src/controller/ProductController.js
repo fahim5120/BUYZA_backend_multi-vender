@@ -1,6 +1,6 @@
 const Product = require("../modal/Product")
 const Seller = require("../modal/Seller");
-const { getProductBySellerId, createProduct, deleteProduct, updateProduct, findProductById, searchProduct, getAllProducts } = require("../service/ProductService");
+const { getProductBySeller, createProduct, deleteProduct, updateProduct, findProductById, searchProduct, getAllProducts } = require("../service/ProductService");
 ;
 // const { createProductSchema } = require("../validators/productValidators");
 // const Yup = require("yup");
@@ -10,7 +10,7 @@ exports.getProductBySellerId=  async (req, res)=> {
     try {
       const seller = await req.seller;
 
-      const products = await getProductBySellerId(seller._id);
+      const products = await getProductBySeller(seller._id);
       res.status(200).json( products );
     } catch (error) {
       // console.log("------ ");
