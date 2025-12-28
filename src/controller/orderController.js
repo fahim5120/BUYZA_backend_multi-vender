@@ -1,5 +1,7 @@
+const PaymentOrder = require("../modal/PaymentOrder");
 const CartService = require("../service/CartService");
 const OrderService = require("../service/OrderService");
+const PaymentService = require("../service/PaymentService");
 
 class OrderController {
   // Create a new order
@@ -16,7 +18,30 @@ class OrderController {
         const cart = await CartService.findUserCart(user);
         const orders = await OrderService.createOrder(user, shippingAddress, cart);
 
-       return res.status(200).json(orders);
+
+       const paymentOrder = await PaymentService.createOrder(user, orders);
+        const response = {};
+
+
+         if (paymentMethod === "RAZORPAY") {
+            const payment = await PaymentService.createRazorpayPaymentLink(user, paymentOrder.amount, paymentOrder._id);
+            // const paymentUrl = payment.short_url;
+            // const paymentUrlId = payment.id;
+
+            response.payment_link_url = payment.short_url ;
+
+            paymentOrder.paymentLinkId = payment.id;
+            await PaymentOrder.findByIdAndUpdate(paymentOrder._id,paymentOrder)
+            // await this.paymentOrderRepository.save(paymentOrder);
+            // console.log('payment -- ',payment)
+
+        }
+        //  else if (paymentMethod === PaymentMethod.STRIPE) {
+        //     const paymentUrl = await PaymentService.createStripePaymentLink(user, paymentOrder.amount, paymentOrder._id);
+        //     response.payment_link_url = paymentUrl;
+        // }
+
+       return res.status(200).json(response);
 
     } catch (error) {
     //   console.log("error ",error)
