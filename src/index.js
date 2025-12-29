@@ -23,6 +23,10 @@ const sellerOrderRoutes=require("./routers/sellerOrderRoutes");
 const PaymentRoutes=require("./routers/PaymentRoutes");
 const transactionRoutes=require("./routers/TransactionRoutes");
 const sellerReportRoutes=require("./routers/sellerProductRoutes");
+const homeCategoryRoutes=require("./routers/HomeCategoryRoutes");
+const dealRoutes=require("./routers/DealRoutes");
+
+
 
 
 app.use("/products",productRoutes)
@@ -32,7 +36,7 @@ app.use("/api/orders",orderRoutes)
 app.use("/api/seller/orders",sellerOrderRoutes)
 app.use("/api/payment",PaymentRoutes)
 app.use("/api/transaction",transactionRoutes)
-app.use("/api/sellers/report",transactionRoutes)
+app.use("/api/sellers/report",sellerReportRoutes)
 
 
 app.use("/admin",adminRoutes)
@@ -43,6 +47,9 @@ app.use("/sellers",sellerRoutes)
 
 
 app.use("/admin",adminRoutes)
+app.use("/home",homeCategoryRoutes)
+app.use("/admin/deals",dealRoutes)
+
 
 
 
