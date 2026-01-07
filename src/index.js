@@ -1,16 +1,25 @@
 require("dotenv").config();
 const express = require('express');
-
 const connectDB = require('./db/db');
 const bodyParser = require('body-parser');
 const app=express()
+const cors = require('cors');
 
 
 
 app.get("/",(req,res)=>{
     res.send({message:"Hello Welcome To Buyza Backend System!"})
 })
+app.use(cors(
+    // origin: '*',
+    // methods: ['GET','POST','PUT','DELETE'],
+    // allowedHeaders: ['Content-Type','Authorization']
+))
+
+
 app.use(bodyParser.json())
+
+
 const adminRoutes=require("./routers/AdminRoutes")
 const sellerRoutes=require("./routers/SellerRoutes");
 const authRoutes=require("./routers/AuthRoutes");
@@ -22,7 +31,7 @@ const orderRoutes=require("./routers/orderRoutes");
 const sellerOrderRoutes=require("./routers/sellerOrderRoutes");
 const PaymentRoutes=require("./routers/PaymentRoutes");
 const transactionRoutes=require("./routers/TransactionRoutes");
-const sellerReportRoutes=require("./routers/sellerProductRoutes");
+const sellerReportRoutes=require("./routers/SellerReportRoutes");
 const homeCategoryRoutes=require("./routers/HomeCategoryRoutes");
 const dealRoutes=require("./routers/DealRoutes");
 
@@ -39,9 +48,9 @@ app.use("/api/transaction",transactionRoutes)
 app.use("/api/sellers/report",sellerReportRoutes)
 
 
-app.use("/admin",adminRoutes)
 
-app.use("/auth",authRoutes)
+
+app.use("/api/auth",authRoutes)
 app.use("/api/users",userRoutes)
 app.use("/sellers",sellerRoutes)
 
@@ -68,3 +77,6 @@ app.listen(port,async()=>{
 
 
 //lRE5jAik7m0HJryk
+
+
+

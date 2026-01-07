@@ -136,7 +136,7 @@ class OrderService {
   async updateOrderStatus(orderId, status) {
     const order = await this.findOrderById(orderId);
 
-    order.status = status;
+    order.orderStatus = status;
 
     return await Order.findByIdAndUpdate(orderId, order, {
       new: true,

@@ -1,10 +1,9 @@
 const Category = require("../modal/Category");
 const Product = require("../modal/Product");
-const { calculateDiscountPercentage } = require("../util/calculateDiscountPercentage");
+const {
+  calculateDiscountPercentage,
+} = require("../util/calculateDiscountPercentage");
 const { createOrGetCategory } = require("../util/createOrGetCategory");
-
-
-
 
 exports.createProduct = async (req, seller) => {
   try {
@@ -13,7 +12,7 @@ exports.createProduct = async (req, seller) => {
       req.sellingPrice
     );
     const category1 = await createOrGetCategory(req.category, 1);
-    const category2 = await createOrGetCategory(  
+    const category2 = await createOrGetCategory(
       req.category2,
       2,
       category1._id
@@ -33,7 +32,7 @@ exports.createProduct = async (req, seller) => {
       discountPercent,
       size: req.sizes,
       color: req.color,
-      quantity:req.quantity,
+      quantity: req.quantity,
       seller: seller._id,
       category: category3._id,
     });
@@ -98,8 +97,6 @@ exports.getProductBySeller = async (sellerId) => {
   return await Product.find({ seller: sellerId });
 };
 
-
-
 exports.getAllProducts = async (req) => {
   const filterQuery = {};
   if (req.category) {
@@ -117,16 +114,15 @@ exports.getAllProducts = async (req) => {
   if (req.color) {
     filterQuery.color = req.color;
   }
- 
-  if (req.minPrice && req.maxPrice ) {
-    filterQuery.sellingPrice = { $gte: req.minPrice , $lte: req.maxPrice};
+
+  if (req.minPrice && req.maxPrice) {
+    filterQuery.sellingPrice = { $gte: req.minPrice, $lte: req.maxPrice };
   }
 
-  
   if (req.minDiscount) {
     filterQuery.discountPercent = { $gte: req.minDiscount };
   }
-   if (req.size) {
+  if (req.size) {
     filterQuery.size = req.size;
   }
   if (req.stock) {
@@ -141,23 +137,21 @@ exports.getAllProducts = async (req) => {
   }
 
   const products = await Product.find(filterQuery)
+    .populate("seller", "bussinessDetails") // ✅ ADD THIS
+    // .populate("category")
+    .populate("category", "categoryId")
     .sort(sortQuery)
     .skip(req.pageNumber * 10)
     .limit(10);
 
-
-      // Count the total number of products matching the filter query
+  // Count the total number of products matching the filter query
   const totalElement = await Product.countDocuments(filterQuery);
 
-   // Calculate the total number of pages
-  const totalpages = Math.ceil(totalElement/10)
+  // Calculate the total number of pages
+  const totalpages = Math.ceil(totalElement / 10);
 
-//   const page = parseInt(req.pageNumber) || 0;
-//   const pageSize = parseInt(req.pageSize) || 10;
-
-
-
- 
+  //   const page = parseInt(req.pageNumber) || 0;
+  //   const pageSize = parseInt(req.pageSize) || 10;
 
   const res = {
     content: products,
@@ -168,12 +162,9 @@ exports.getAllProducts = async (req) => {
   return res;
 };
 
-
 // const Category = require("../modal/Category");
 // const Product = require("../modal/Product");
 // const { calculateDiscountPercentage } = require("../util/calculateDiscountPercentage");
-
-
 
 // const createOrGetCategory = async (categoryId, level, parentId = null) => {
 //   let category = await Category.findOne({ categoryId });

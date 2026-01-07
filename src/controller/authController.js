@@ -35,6 +35,8 @@ exports.sentLoginOtp=async(req, res)=> {
           
          const authResponse=   await signin(req.body)
      
+         console.log(authResponse);
+         
 
             return res.status(200).json(authResponse);
         } catch (error) {
